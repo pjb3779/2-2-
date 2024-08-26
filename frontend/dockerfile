@@ -1,0 +1,13 @@
+FROM kasmweb/nginx:latest
+
+# 设置工作目录
+WORKDIR /usr/share/nginx/html
+
+# 复制Jenkins流水线构建好的前端文件到Nginx的静态文件目录
+COPY ./dist /usr/share/nginx/html
+
+# 暴露端口
+EXPOSE 80
+
+# 启动Nginx服务
+CMD ["nginx", "-g", "daemon off;"]

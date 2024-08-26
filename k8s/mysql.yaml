@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: mysql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0 # 使用官方MySQL镜像
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: 1673916v!! # 替换为你的MySQL root密码
+            - name: MYSQL_DATABASE
+              value: testruangong # 初始化数据库名称
+            - name: MYSQL_USER
+              value: root # 用户名
+            - name: MYSQL_PASSWORD
+              value: 1673916v!! # 用户密码
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          emptyDir: {} # 临时存储，也可以替换为持久存储

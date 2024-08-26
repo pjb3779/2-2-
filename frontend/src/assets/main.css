@@ -1,0 +1,6 @@
+
+.ck-editor__editable {
+  height: 600px; /* 您希望的固定高度 */
+  overflow: auto; /* 添加滚动条 */
+}
+
