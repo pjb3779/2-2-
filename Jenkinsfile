@@ -7,13 +7,11 @@ pipeline {
                 echo 'Checkout...'
                 checkout([
                     $class: 'GitSCM', 
-                    branches: [[name: '*/master']], 
+                    branches: [[name: '*/main']], 
                     userRemoteConfigs: [[
-                        url: 'https://codehub.devcloud.cn-north-4.huaweicloud.com/4d17921d5d5c4cd4a3856321726056b2/termsrc.git',
-                        credentialsId: 'huawei'
+                        url: 'https://github.com/pjb3779/2-2-'
                     ]]
                 ])
-                sh 'ls -la' // 检查项目根目录下的文件
             }
         }
 
@@ -33,15 +31,6 @@ pipeline {
                 }
             }
         }
-        
-        stage('check backend again') {
-            steps {
-                dir('backend'){
-                    sh 'pwd' // 打印当前路径
-                    sh 'ls -la' // 列出当前目录的文件，确认是否有 pom.xml
-                }
-            }
-        }
 
         stage('Build Backend') {
             agent {
@@ -53,9 +42,7 @@ pipeline {
             }
             steps {
                 echo 'backend-building...'
-                dir('backend') { 
-                    sh 'pwd' // 打印当前路径
-                    sh 'ls -la' // 列出当前目录的文件，确认是否有 pom.xml
+                dir('backend') {
                     sh 'mvn clean test package'
                 }
             }
@@ -68,12 +55,53 @@ pipeline {
             }
         }
 
+        stage('Integration Test') {
+            steps {
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    echo 'Integration testing...'
+                    sh '#!/bin/bash -il newman run ProjectReader.postman_collection.json -r cli,html --reporter-html-export report/Testreport.html'
+                }
+            }
+        }
+
+        stage('Email Notification on Failure') {
+            steps {
+                script {
+                    if (currentBuild.result == 'FAILURE') {
+                        emailext(
+                            subject: 'Integration Test Failure in Build ${env.BUILD_NUMBER}',
+                            body: 'The integration test failed in build ${env.BUILD_NUMBER}. Please check the test results.',
+                            recipientProviders: [
+                                [$class: 'CulpritsRecipientProvider'],
+                                [$class: 'RequesterRecipientProvider']
+                            ],
+                            to: 'pjb3779@naver.com' // 替换为你希望接收通知的邮箱地址
+                        )
+                    }
+                }
+            }
+        }
+
+        stage('Integration Test Result') {
+            steps {
+                publishHTML([
+                    allowMissing: false, // 如果文件丢失，构建失败
+                    alwaysLinkToLastBuild: true, 
+                    keepAll: true, 
+                    reportDir: "${env.WORKSPACE}/report", // 动态路径
+                    reportFiles: 'Testreport.html', 
+                    reportName: 'Integration Test Report', 
+                    reportTitles: '集成测试'
+                ])
+            }
+        }
+
         stage('Build Docker Images') {  
             steps {
                 echo 'Building Docker images...'
                 script {
-                    docker.build('2244509212/workforterm-frontend:latest', './frontend')
-                    docker.build('2244509212/workforterm-backend:latest', './backend')
+                    docker.build('pjb3779/myfront-app:latest', './frontend')
+                    docker.build('pjb3779/myback-app:latest', './backend')
                 }
             }
         }
@@ -82,9 +110,9 @@ pipeline {
             steps {
                 echo 'Pushing Docker images...'
                 script {
-                    docker.withRegistry('', 'my_dockerhub_credentials') { 
-                        docker.image('2244509212/workforterm-frontend:latest').push('latest')
-                        docker.image('2244509212/workforterm-backend:latest').push('latest')
+                    docker.withRegistry('', 'docker') { 
+                        docker.image('pjb3779/myfront-app:latest').push('latest')
+                        docker.image('pjb3779/myback-app:latest').push('latest')
                     }
                 }
             }
