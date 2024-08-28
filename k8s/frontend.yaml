@@ -6,7 +6,7 @@ spec:
   type: NodePort # 或者 LoadBalancer, 依据需求
   ports:
     - port: 80
-      targetPort: 80
+      targetPort: 8082
       nodePort: 30001 # 本地访问端口
   selector:
     app: frontend
@@ -27,6 +27,9 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 2244509212/workforterm-frontend:latest # 替换为你的前端镜像
+          image: pjb3779/myfront-app:latest # 替换为你的前端镜像
           ports:
-            - containerPort: 80
+            - containerPort: 8082
+          env:
+            - name: PORT
+              value: "8082"
