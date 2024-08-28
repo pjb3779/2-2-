@@ -27,7 +27,7 @@ spec:
         - name: backend
           image: pjb3779/myback-app:latest # 替换为你的后端镜像
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
           env:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/testruangong # 连接到 MySQL 的 URL
