@@ -7,7 +7,7 @@ WORKDIR /app
 COPY target/*.jar app.jar
 
 # 暴露应用端口（注意，这里是应用内部运行的端口，与Kubernetes的targetPort对应）
-EXPOSE 8080
+EXPOSE 8081
 
 # 启动Spring Boot应用
 CMD ["java", "-jar", "app.jar"]
