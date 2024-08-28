@@ -11,6 +11,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                script {
+                    // Git 버퍼 크기 증가
+                    sh 'git config --global http.postBuffer 524288000'
+                }
                 // 检出代码
                 checkout scm
             }
