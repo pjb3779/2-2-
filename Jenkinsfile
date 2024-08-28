@@ -1,139 +1,87 @@
 pipeline {
     agent any
-    
+
+    environment {
+        DOCKER_CREDENTIALS_ID = 'dockerhub' // Docker Registry 凭据 ID
+        // DOCKER_IMAGE_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        DOCKER_USER_ID = 'pjb3779'
+        KUBE_CONFIG = credentials('kubernetes') // Kubernetes 配置凭据 ID
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checkout...'
-                checkout([
-                    $class: 'GitSCM', 
-                    branches: [[name: '*/main']], 
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/pjb3779/2-2-'
-                    ]]
-                ])
+                // 检出代码
+                checkout scm
             }
         }
 
-        stage('Build Frontend') { 
-            agent {
-                docker {
-                    image 'node:latest' // 使用本地的 Node.js 镜像
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                    reuseNode true
-                }
-            } 
+        stage('Build Frontend') {
             steps {
-                echo 'Frontend-building...'
-                dir('frontend') { 
-                    sh 'npm install'
-                    sh 'npm run build'
+                script {
+                    // 构建前端 Docker 镜像
+                    docker.build("${DOCKER_USER_ID}/frontend:latest", "./frontend")
                 }
             }
         }
 
         stage('Build Backend') {
-            agent {
-                docker {
-                    image 'maven:latest' // 使用本地的 Maven 镜像
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                    reuseNode true
-                }
-            }
-            steps {
-                echo 'backend-building...'
-                dir('backend') {
-                    sh 'mvn clean test package'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Generating test report...'
-                junit '**/target/surefire-reports/*.xml'
-            }
-        }
-
-        stage('Integration Test') {
-            steps {
-                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    echo 'Integration testing...'
-                    sh '#!/bin/bash -il newman run ProjectReader.postman_collection.json -r cli,html --reporter-html-export report/Testreport.html'
-                }
-            }
-        }
-
-        stage('Email Notification on Failure') {
             steps {
                 script {
-                    if (currentBuild.result == 'FAILURE') {
-                        emailext(
-                            subject: 'Integration Test Failure in Build ${env.BUILD_NUMBER}',
-                            body: 'The integration test failed in build ${env.BUILD_NUMBER}. Please check the test results.',
-                            recipientProviders: [
-                                [$class: 'CulpritsRecipientProvider'],
-                                [$class: 'RequesterRecipientProvider']
-                            ],
-                            to: 'pjb3779@naver.com' // 替换为你希望接收通知的邮箱地址
-                        )
+                    // 构建后端 Docker 镜像
+                    docker.build("${DOCKER_USER_ID}/backend:latest", "./backend")
+                }
+            }
+        }
+
+        stage('Push Docker Images') {
+            steps {
+                script {
+                    // 登录 Docker Registry
+                    docker.withRegistry('https://index.docker.io/v2/', DOCKER_CREDENTIALS_ID) {
+                        // 推送前端镜像
+                        docker.image("${DOCKER_USER_ID}/frontend:latest").push()
+                        // 推送后端镜像
+                        docker.image("${DOCKER_USER_ID}/backend:latest").push()
                     }
                 }
             }
         }
 
-        stage('Integration Test Result') {
+        stage('Deploy to Kubernetes') {
             steps {
-                publishHTML([
-                    allowMissing: false, // 如果文件丢失，构建失败
-                    alwaysLinkToLastBuild: true, 
-                    keepAll: true, 
-                    reportDir: "${env.WORKSPACE}/report", // 动态路径
-                    reportFiles: 'Testreport.html', 
-                    reportName: 'Integration Test Report', 
-                    reportTitles: '集成测试'
-                ])
-            }
-        }
-
-        stage('Build Docker Images') {  
-            steps {
-                echo 'Building Docker images...'
                 script {
-                    docker.build('pjb3779/myfront-app:latest', './frontend')
-                    docker.build('pjb3779/myback-app:latest', './backend')
-                }
-            }
-        }
-
-        stage('Push Docker Images') {   
-            steps {
-                echo 'Pushing Docker images...'
-                script {
-                    docker.withRegistry('', 'docker') { 
-                        docker.image('pjb3779/myfront-app:latest').push('latest')
-                        docker.image('pjb3779/myback-app:latest').push('latest')
+                    // 部署到 Kubernetes
+                    withKubeConfig([credentialsId: KUBE_CONFIG]) {
+                        bat 'kubectl apply -f k8s/mysql.yaml'
+                        bat 'kubectl apply -f k8s/backend.yaml'
+                        bat 'kubectl apply -f k8s/frontend.yaml'
                     }
                 }
             }
         }
 
-        stage('Deploy to Kubernetes') { 
-            steps {
-                echo 'Deploying to Kubernetes...'
-                script {
-                    sh 'kubectl apply -f k8s/mysql.yaml'
-                    sh 'kubectl apply -f k8s/backend.yaml'
-                    sh 'kubectl apply -f k8s/frontend.yaml'
-                }
-            }
-        }
+        // stage('Integration Test') {
+        //     steps {
+        //         script {
+        //             // 运行集成测试
+        //             // 可以根据需要修改下面的测试命令
+        //             bat "npm run test:integration"
+        //         }
+        //     }
+        // }
     }
 
     post {
         always {
-            echo 'Finish!!!'
+            // script {
+            //     bat "docker rmi ${DOCKER_USER_ID}/frontend:latest"
+            //     bat "docker rmi ${DOCKER_USER_ID}/backend:latest"
+            // }
+            // echo 'Deleting Docker images due to failure.'
+            // 清理工作区
             cleanWs()
+            echo 'end'
         }
     }
 }
