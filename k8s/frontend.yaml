@@ -1,7 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: frontend-service
+  namespace: myapp
 spec:
   type: NodePort # 或者 LoadBalancer, 依据需求
   ports:
@@ -14,7 +15,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: frontend-deployment
+  namespace: myapp
 spec:
   replicas: 1
   selector:
@@ -27,6 +29,9 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 2244509212/workforterm-frontend:latest # 替换为你的前端镜像
+          image: 2244509212/frontend:latest # 替换为你的前端镜像
           ports:
             - containerPort: 80
+          env:
+            - name: PORT
+              value: "80"  # 显式设置容器内部应用监听的端口

@@ -1,18 +1,22 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: backend-service
+  namespace: myapp
 spec:
+  # type: NodePort
   ports:
-    - port: 8081 # 防止与Jenkins冲突，暴露的端口由8080改至8081
-      targetPort: 8080
+    - port: 8081
+      targetPort: 8081
+      # nodePort: 30002
   selector:
     app: backend
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: backend-deployment
+  namespace: myapp
 spec:
   replicas: 1
   selector:
@@ -25,13 +29,13 @@ spec:
     spec:
       containers:
         - name: backend
-          image: pjb3779/myback-app:latest # 替换为你的后端镜像
+          image: 2244509212/backend:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql:3306/testruangong # 连接到 MySQL 的 URL
+              value: jdbc:mysql://mysql-service:3306/docreading
             - name: SPRING_DATASOURCE_USERNAME
-              value: myuser
+              value: sql
             - name: SPRING_DATASOURCE_PASSWORD
-              value: mypassword
+              value: sql123

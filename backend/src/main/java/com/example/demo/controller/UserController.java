@@ -17,14 +17,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-
-
-
-
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:5173") // 允许访问的前端域名
 public class UserController {
 
     private final UserService userService;

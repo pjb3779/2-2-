@@ -98,7 +98,7 @@ const editDraft = (id,content) => {
 const update = async (id,content) =>{
   try {
     // 发送PUT请求到后端API更新草稿
-    const response = await axios.put('http://localhost:8080/users/api/updateDraft/',  {
+    const response = await axios.put('http://localhost:8081/users/api/updateDraft/',  {
 
     content: content,
     id: id
@@ -131,7 +131,7 @@ const update = async (id,content) =>{
 // 获取草稿的方法
 const fetchDrafts = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/users/api/getDrafts/', {
+    const response = await axios.get('http://localhost:8081/users/api/getDrafts/', {
       params: { userID: userID.value }
     });
     drafts.value = response.data;
@@ -152,7 +152,7 @@ const deleteDraft = async (id) => {
     }
   ).then(async () => {
     try {
-      const response = await axios.delete('http://localhost:8080/users/api/deleteDraft/', {
+      const response = await axios.delete('http://localhost:8081/users/api/deleteDraft/', {
         params: { id: id }
       });
       if (response.status === 200) {

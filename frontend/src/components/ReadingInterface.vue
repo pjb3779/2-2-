@@ -96,7 +96,7 @@ export default {
   methods: {
     initialLize(){
       axios
-        .get('http://localhost:8080/users/api/UserAccount/', {
+        .get('http://localhost:8081/users/api/UserAccount/', {
           params: { param: this.userId },
         })
         .then((response) => {
@@ -111,7 +111,7 @@ export default {
       this.loadComment();
     },
     loadContent() {
-      axios.get('http://localhost:8080/users/api/chapterContent/',{
+      axios.get('http://localhost:8081/users/api/chapterContent/',{
         params:{
           DocumentID:this.DocumentID,
           chapterNum:this.chapterNum,
@@ -124,7 +124,7 @@ export default {
           console.log(this.text);
           this.chapterTitle = response.data.title;
           axios
-          .get('http://localhost:8080/users/api/Document/', {
+          .get('http://localhost:8081/users/api/Document/', {
             params: { id: this.DocumentID },
           })
           .then((response) =>{
@@ -140,7 +140,7 @@ export default {
     },
     loadComment(){
       axios
-        .get('http://localhost:8080/users/api/Comment/', {
+        .get('http://localhost:8081/users/api/Comment/', {
           params: {
             DocumentID: this.DocumentID,
             chapterNum: this.chapterNum,
@@ -277,7 +277,7 @@ export default {
     saveHighlight() {
     },
     fetchHighlights() {
-      fetch('https://localhost:8080/api/highlights')
+      fetch('https://localhost:8081/api/highlights')
         .then(response => response.json())
         .then(data => {
           this.highlights = data;
@@ -322,7 +322,7 @@ export default {
     },
     postComment() {
       if (this.newComment.trim() !== '') {
-        axios.post('http://localhost:8080/users/api/Comment/', {
+        axios.post('http://localhost:8081/users/api/Comment/', {
             UserID: this.userId,
             Content: this.newComment,
             DocumentID: this.DocumentID,

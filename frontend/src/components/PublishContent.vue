@@ -176,7 +176,7 @@ export default {
     // 获取草稿的方法
     async fetchDrafts() {
       try {
-        const response = await axios.get('http://localhost:8080/users/api/getDrafts/', {
+        const response = await axios.get('http://localhost:8081/users/api/getDrafts/', {
           params: { userID: this.mul_user.userID }
         });
         this.drafts = response.data;
@@ -297,7 +297,7 @@ export default {
         cover:this.coverContent,
         DocumentID:null
       };
-      axios.post('http://localhost:8080/users/api/documents', documentData)
+      axios.post('http://localhost:8081/users/api/documents', documentData)
         .then(response => {
           console.log('Document published:', response.data);
 
@@ -311,7 +311,7 @@ export default {
               content: chapter.content,
               num: index+1
             };
-           axios.post('http://localhost:8080/users/api/chapters/', chapterData)
+           axios.post('http://localhost:8081/users/api/chapters/', chapterData)
               .then(chapterResponse => {
                 console.log('Chapter ${index + 1} published:', chapterResponse.data);
               })

@@ -1,13 +1,19 @@
-FROM kasmweb/nginx:latest
-
+# 第一阶段：构建前端应用
+FROM node:latest AS build
 # 设置工作目录
-WORKDIR /usr/share/nginx/html
+WORKDIR /app
+# 复制 package.json 并安装依赖
+COPY package*.json ./
+RUN npm install
+# 复制应用代码并构建
+COPY . .
+RUN npm run build
 
-# 复制Jenkins流水线构建好的前端文件到Nginx的静态文件目录
-COPY ./dist /usr/share/nginx/html
-
+# 第二阶段：使用 Nginx 镜像部署前端应用
+FROM kasmweb/nginx:latest
+# 复制构建的静态文件到 Nginx 的静态文件目录
+COPY --from=build /app/dist /usr/share/nginx/html
 # 暴露端口
 EXPOSE 80
-
-# 启动Nginx服务
+# 启动 Nginx 服务
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,102 +1,72 @@
 pipeline {
     agent any
-    
+
+    environment {
+        DOCKER_CREDENTIALS_ID = 'dockerhub' // Docker Registry 凭据 ID
+        // DOCKER_IMAGE_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        DOCKER_USER_ID = '2244509212'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checkout...'
-                checkout([
-                    $class: 'GitSCM', 
-                    branches: [[name: '*/master']], 
-                    userRemoteConfigs: [[
-                        url: 'https://codehub.devcloud.cn-north-4.huaweicloud.com/4d17921d5d5c4cd4a3856321726056b2/termsrc.git',
-                        credentialsId: 'huawei'
-                    ]]
-                ])
-                sh 'ls -la' // 检查项目根目录下的文件
+                // 检出代码
+                checkout scm
             }
         }
 
-        stage('Build Frontend') { 
-            agent {
-                docker {
-                    image 'node:latest' // 使用本地的 Node.js 镜像
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                    reuseNode true
-                }
-            } 
+        stage('Build Frontend') {
             steps {
-                echo 'Frontend-building...'
-                dir('frontend') { 
-                    sh 'npm install'
-                    sh 'npm run build'
-                }
-            }
-        }
-        
-        stage('check backend again') {
-            steps {
-                dir('backend'){
-                    sh 'pwd' // 打印当前路径
-                    sh 'ls -la' // 列出当前目录的文件，确认是否有 pom.xml
+                script {
+                    // 构建前端 Docker 镜像
+                    docker.build("${DOCKER_USER_ID}/frontend:latest", "./frontend")
                 }
             }
         }
 
         stage('Build Backend') {
-            agent {
-                docker {
-                    image 'maven:latest' // 使用本地的 Maven 镜像
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                    reuseNode true
-                }
-            }
             steps {
-                echo 'backend-building...'
-                dir('backend') { 
-                    sh 'pwd' // 打印当前路径
-                    sh 'ls -la' // 列出当前目录的文件，确认是否有 pom.xml
-                    sh 'mvn clean test package'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Generating test report...'
-                junit '**/target/surefire-reports/*.xml'
-            }
-        }
-
-        stage('Build Docker Images') {  
-            steps {
-                echo 'Building Docker images...'
                 script {
-                    docker.build('2244509212/workforterm-frontend:latest', './frontend')
-                    docker.build('2244509212/workforterm-backend:latest', './backend')
+                    // 构建后端 Docker 镜像
+                    docker.build("${DOCKER_USER_ID}/backend:latest", "./backend")
                 }
             }
         }
 
-        stage('Push Docker Images') {   
+        stage('Push Docker Images') {
             steps {
-                echo 'Pushing Docker images...'
                 script {
-                    docker.withRegistry('', 'my_dockerhub_credentials') { 
-                        docker.image('2244509212/workforterm-frontend:latest').push('latest')
-                        docker.image('2244509212/workforterm-backend:latest').push('latest')
+                    // 登录 Docker Registry
+                    docker.withRegistry('https://index.docker.io/v2/', DOCKER_CREDENTIALS_ID) {
+                        // 推送前端镜像
+                        docker.image("${DOCKER_USER_ID}/frontend:latest").push()
+                        // 推送后端镜像
+                        docker.image("${DOCKER_USER_ID}/backend:latest").push()
                     }
                 }
             }
         }
 
-        stage('Deploy to Kubernetes') { 
+        stage('Deploy to Kubernetes') {
             steps {
-                echo 'Deploying to Kubernetes...'
+                echo 'in deploy'
                 script {
-                    sh 'kubectl apply -f k8s/mysql.yaml'
-                    sh 'kubectl apply -f k8s/backend.yaml'
-                    sh 'kubectl apply -f k8s/frontend.yaml'
+                    withKubeConfig([credentialsId: 'kubeconfig']) {
+                        echo 'in config'
+                        bat 'kubectl version'
+                        // bat 'kubectl create configmap mysql-initdb-config --from-file=docreading.sql -n myapp'
+                        bat 'kubectl apply -f k8s/mysql.yaml'
+                        bat 'kubectl apply -f k8s/backend.yaml'
+                        bat 'kubectl apply -f k8s/frontend.yaml'
+                    }
+                }
+            }
+        }
+
+        stage('Integration Test') {
+            steps {
+                script {
+                    bat 'newman run postman_script/postman_collection.json --reporters cli,html --reporter-html-export postman_report.html'
                 }
             }
         }
@@ -104,8 +74,10 @@ pipeline {
 
     post {
         always {
-            echo 'Finish!!!'
+            archiveArtifacts artifacts: 'postman_report.html', allowEmptyArchive: true
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '', reportFiles: 'postman_report.html', reportName: 'Postman HTML Report'])
             cleanWs()
+            echo 'end'
         }
     }
 }

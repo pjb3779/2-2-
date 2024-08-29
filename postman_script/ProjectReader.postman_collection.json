@@ -1,0 +1,2777 @@
+{
+	"info": {
+		"_postman_id": "333b5ead-dc48-4e7f-998d-4de99b4f559f",
+		"name": "ProjectReader",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UserExtraTest",
+			"item": [
+				{
+					"name": "LoginRegisterTest",
+					"item": [
+						{
+							"name": "RegisterTest",
+							"item": [
+								{
+									"name": "UsernameCheckTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body matches string\", function () {\r",
+													"    pm.expect(pm.response.text()).to.include(\"well\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var randomUserName = \"User_\" + Math.random().toString(36).substring(7);\r",
+													"\r",
+													"var randomPassword = \"Pass_\" + Math.random().toString(36).substring(7);\r",
+													"\r",
+													"var randomExampleEmail = Math.random().toString(36).substring(7) + \"@example.com\";\r",
+													"\r",
+													"var randomPassword2 = \"Pass_\" + Math.random().toString(36).substring(7);\r",
+													"\r",
+													"pm.collectionVariables.set(\"UserName\", randomUserName);\r",
+													"\r",
+													"pm.collectionVariables.set(\"Password\", randomPassword);\r",
+													"\r",
+													"pm.collectionVariables.set(\"Password2\", randomPassword2);\r",
+													"\r",
+													"pm.collectionVariables.set(\"EmailAdress\", randomExampleEmail);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/checkUsername/{{UserName}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"checkUsername",
+												"{{UserName}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "EmailCheckTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body matches string\", function () {\r",
+													"    pm.expect(pm.response.text()).to.include(\"well\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/checkEmailUsed/{{EmailAdress}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"checkEmailUsed",
+												"{{EmailAdress}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "NewUserTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body matches string\", function () {\r",
+													"    pm.expect(pm.response.text()).to.include(\"yes\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"{{UserName}}\",\r\n    \"password\": \"{{Password}}\",\r\n    \"email\": \"{{EmailAdress}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IP}}:{{Port}}/userInsert",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"userInsert"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UsernameRechecktest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body matches string\", function () {\r",
+													"    pm.expect(pm.response.text()).to.include(\"repeat!\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/checkUsername/{{UserName}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"checkUsername",
+												"{{UserName}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "EmailRecheckTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body matches string\", function () {\r",
+													"    pm.expect(pm.response.text()).to.include(\"repeat!\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/checkEmailUsed/{{EmailAdress}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"checkEmailUsed",
+												"{{EmailAdress}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SendMailTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/checkEmail/{{EmailAdress}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"checkEmail",
+												"{{EmailAdress}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "LoginTest",
+							"item": [
+								{
+									"name": "LoginFailedTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body is correct\", function () {\r",
+													"    pm.response.to.have.body(\"No such user account !\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/checkLogin/{{$randomLastName}}/{{$randomPassword}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"checkLogin",
+												"{{$randomLastName}}",
+												"{{$randomPassword}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "LoginSuccessTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body is correct\", function () {\r",
+													"    pm.response.to.have.body(\"well\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/checkLogin/{{UserName}}/{{Password}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"checkLogin",
+												"{{UserName}}",
+												"{{Password}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "LoginMsgTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let jsonData = pm.response.json();  \r",
+													"  \r",
+													"let found = false;  \r",
+													"    \r",
+													"let userName = pm.collectionVariables.get(\"UserName\");\r",
+													"\r",
+													"let password = pm.collectionVariables.get(\"Password\");\r",
+													"\r",
+													"jsonData.forEach(function(item) {    \r",
+													"    if (item.userName === userName && item.passWords === password) {  \r",
+													"        found = true;  \r",
+													"        var userID = item.userID;\r",
+													"        pm.collectionVariables.set(\"UserID\", userID);\r",
+													"        return false;\r",
+													"    }  \r",
+													"});  \r",
+													"    \r",
+													"pm.test(\"Found user message\", function () {  \r",
+													"    pm.expect(found).to.be.true;  \r",
+													"});  \r",
+													"  \r",
+													"pm.test(\"Response should be an array and not empty\", function () {  \r",
+													"    pm.expect(Array.isArray(jsonData)).to.be.true;  \r",
+													"    pm.expect(jsonData.length).to.be.gt(0);  \r",
+													"});    "
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/getLoginMsg/{{UserName}}/{{Password}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"getLoginMsg",
+												"{{UserName}}",
+												"{{Password}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "LoginMsgfailedTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let jsonData = pm.response.json();  \r",
+													"   \r",
+													"pm.test(\"Check if the returned array is empty\", function () {  \r",
+													"    pm.expect(Array.isArray(jsonData)).to.be.true;  \r",
+													"    pm.expect(jsonData.length).to.equal(0);  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/getLoginMsg/{{$randomLastName}}/{{$randomPassword}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"getLoginMsg",
+												"{{$randomLastName}}",
+												"{{$randomPassword}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "ForgetTest",
+							"item": [
+								{
+									"name": "GetByEmailTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let jsonData = pm.response.json();  \r",
+													"  \r",
+													"let found = false;  \r",
+													"    \r",
+													"let emailAdress = pm.collectionVariables.get(\"EmailAdress\");\r",
+													"\r",
+													"jsonData.forEach(function(item) {    \r",
+													"    if (item.Email === emailAdress) {  \r",
+													"        found = true;  \r",
+													"        return false;\r",
+													"    }  \r",
+													"});  \r",
+													"    \r",
+													"pm.test(\"Found user by email\", function () {  \r",
+													"    pm.expect(found).to.be.true;  \r",
+													"});  \r",
+													"  \r",
+													"pm.test(\"Response should be an array and not empty\", function () {  \r",
+													"    pm.expect(Array.isArray(jsonData)).to.be.true;  \r",
+													"    pm.expect(jsonData.length).to.be.gt(0);  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/getUserByEmail/{{EmailAdress}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"getUserByEmail",
+												"{{EmailAdress}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GetByEmailFailedTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let jsonData = pm.response.json();  \r",
+													"   \r",
+													"pm.test(\"Check if the returned array is empty\", function () {  \r",
+													"    pm.expect(Array.isArray(jsonData)).to.be.true;  \r",
+													"    pm.expect(jsonData.length).to.equal(0);  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/getUserByEmail/{{$randomExampleEmail}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"getUserByEmail",
+												"{{$randomExampleEmail}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdatePasswordTest",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body matches string\", function () {\r",
+													"    pm.expect(pm.response.text()).to.include(\"well\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/updatePassword/{{EmailAdress}}/{{Password2}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"updatePassword",
+												"{{EmailAdress}}",
+												"{{Password2}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "OldPasswordTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body is correct\", function () {\r",
+													"    pm.response.to.have.body(\"No such user account !\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/checkLogin/{{UserName}}/{{Password}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"checkLogin",
+												"{{UserName}}",
+												"{{Password}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "NewPasswordtest",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"let password2 = pm.collectionVariables.get(\"Password2\");\r",
+													"\r",
+													"pm.environment.set(\"Password\", password2);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Body is correct\", function () {\r",
+													"    pm.response.to.have.body(\"well\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/checkLogin/{{UserName}}/{{Password2}}",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"checkLogin",
+												"{{UserName}}",
+												"{{Password2}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "UserInfoTest",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var item = pm.response.json();\r",
+									"\r",
+									"let check = false;\r",
+									"\r",
+									"let userName = pm.collectionVariables.get(\"UserName\");\r",
+									"let email = pm.collectionVariables.get(\"EmailAdress\");\r",
+									"\r",
+									"if (item.userName == userName && item.email == email){\r",
+									"    check = true;\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Found user info\", function () {  \r",
+									"    pm.expect(check).to.be.true;  \r",
+									"});  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}:{{Port}}/info/{{UserID}}",
+							"host": [
+								"{{IP}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"info",
+								"{{UserID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserInfoFailedTest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let contentLength = pm.response.headers.get(\"Content-Length\");  \r",
+									"  \r",
+									"pm.test(\"no result\", function () {  \r",
+									"    pm.expect(contentLength).to.equal(\"0\");  \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{IP}}:{{Port}}/info/-1",
+							"host": [
+								"{{IP}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"info",
+								"-1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ReadingTest",
+			"item": [
+				{
+					"name": "DocsTest",
+					"item": [
+						{
+							"name": "GetDocsTest",
+							"item": [
+								{
+									"name": "GetDocsNonClassTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/getDocs/0/0",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"getDocs",
+												"0",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GetDocsClass1Test",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/getDocs/0/1",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"getDocs",
+												"0",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GetDocsEmptyClassTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let jsonData = pm.response.json();  \r",
+													"   \r",
+													"pm.test(\"Check if the returned array is empty\", function () {  \r",
+													"    pm.expect(Array.isArray(jsonData)).to.be.true;  \r",
+													"    pm.expect(jsonData.length).to.equal(0);  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/getDocs/0/214748",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"getDocs",
+												"0",
+												"214748"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GetDocsTimeDescTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = pm.response.json();\r",
+													"\r",
+													"var chk = false;\r",
+													"\r",
+													"for (let i = 0; i < jsonData.length - 1; i++){\r",
+													"    for (let j = 0; j < 6; j++){\r",
+													"        if (jsonData[i].publishTime[j] > jsonData[i+1].publishTime[j])\r",
+													"            break;\r",
+													"        if (jsonData[i].publishTime[j] < jsonData[i+1].publishTime[j]){\r",
+													"            chk = true;\r",
+													"            break;\r",
+													"        }\r",
+													"    }\r",
+													"    if (chk == true)\r",
+													"        break;\r",
+													"}\r",
+													"\r",
+													"pm.test(\"Docs publishtime Desc\", function () {  \r",
+													"    pm.expect(chk).to.be.false;  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/getDocs/1/0",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"getDocs",
+												"1",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GetDocsTimeAscTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = pm.response.json();\r",
+													"\r",
+													"var chk = false;\r",
+													"\r",
+													"for (let i = 0; i < jsonData.length - 1; i++){\r",
+													"        for (let j = 0; j < 6; j++){\r",
+													"        if (jsonData[i].publishTime[j] < jsonData[i+1].publishTime[j])\r",
+													"            break;\r",
+													"        if (jsonData[i].publishTime[j] > jsonData[i+1].publishTime[j]){\r",
+													"            chk = true;\r",
+													"            break;\r",
+													"        }\r",
+													"    }\r",
+													"    if (chk == true)\r",
+													"        break;\r",
+													"}\r",
+													"\r",
+													"pm.test(\"Docs publishtime Asc\", function () {  \r",
+													"    pm.expect(chk).to.be.false;  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/getDocs/2/0",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"getDocs",
+												"2",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GetDocsPopDescTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = pm.response.json();\r",
+													"\r",
+													"var chk = false;\r",
+													"\r",
+													"for (let i = 0; i < jsonData.length - 1; i++){\r",
+													"    if(jsonData[i].Popularity < jsonData[i+1].Popularity)\r",
+													"        chk = true;\r",
+													"\r",
+													"    if (chk == true)\r",
+													"        break;\r",
+													"}\r",
+													"\r",
+													"pm.test(\"Docs popularity Desc\", function () {  \r",
+													"    pm.expect(chk).to.be.false;  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/getDocs/3/0",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"getDocs",
+												"3",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GetDocsPopAscTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = pm.response.json();\r",
+													"\r",
+													"var chk = false;\r",
+													"\r",
+													"for (let i = 0; i < jsonData.length - 1; i++){\r",
+													"    if(jsonData[i].Popularity > jsonData[i+1].Popularity)\r",
+													"        chk = true;\r",
+													"\r",
+													"    if (chk == true)\r",
+													"        break;\r",
+													"}\r",
+													"\r",
+													"pm.test(\"Docs popularity Asc\", function () {  \r",
+													"    pm.expect(chk).to.be.false;  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/getDocs/4/0",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"getDocs",
+												"4",
+												"0"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "SearchDocTest",
+							"item": [
+								{
+									"name": "SearchKeywordTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = pm.response.json();\r",
+													"\r",
+													"var chk = false;\r",
+													"\r",
+													"for (let i = 0; i < jsonData.length - 1; i++){\r",
+													"    if (!jsonData[i].title.includes(\"testDoc1\")){\r",
+													"        chk = true;\r",
+													"    }\r",
+													"    if (chk == true)\r",
+													"        break;\r",
+													"}\r",
+													"\r",
+													"pm.test(\"Keyword search success\", function () {  \r",
+													"    pm.expect(chk).to.be.false;  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/searchDoc/testDoc1/0/0/0",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"searchDoc",
+												"testDoc1",
+												"0",
+												"0",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SearchKeywordEmptyTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let jsonData = pm.response.json();  \r",
+													"   \r",
+													"pm.test(\"Check if the returned array is empty\", function () {  \r",
+													"    pm.expect(Array.isArray(jsonData)).to.be.true;  \r",
+													"    pm.expect(jsonData.length).to.equal(0);  \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/searchDoc/锟斤拷锟斤拷/0/0/0",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"searchDoc",
+												"锟斤拷锟斤拷",
+												"0",
+												"0",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SearchDocTimeTest1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/searchDoc/testDoc1/0/0/1",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"searchDoc",
+												"testDoc1",
+												"0",
+												"0",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SearchDocTimeTest2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/searchDoc/testDoc1/0/0/2",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"searchDoc",
+												"testDoc1",
+												"0",
+												"0",
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "SearchDocTimeTest3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{IP}}:{{Port}}/Doc/searchDoc/testDoc1/0/0/3",
+											"host": [
+												"{{IP}}"
+											],
+											"port": "{{Port}}",
+											"path": [
+												"Doc",
+												"searchDoc",
+												"testDoc1",
+												"0",
+												"0",
+												"3"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "GetHotDocsTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/Doc/getHotDocs",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"Doc",
+										"getHotDocs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetHotDocsTodayTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/Doc/getHotDocsToday",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"Doc",
+										"getHotDocsToday"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetNewDocsTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/Doc/getNewDocs",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"Doc",
+										"getNewDocs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetRecDocsLoginTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/Doc/getRecDocs/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"Doc",
+										"getRecDocs",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetRecDocsLogoutTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/Doc/getRecDocs/-1",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"Doc",
+										"getRecDocs",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetDocByIDTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();  \r",
+											"  \r",
+											"let found = false;  \r",
+											"\r",
+											"jsonData.forEach(function(item) {    \r",
+											"    if (item.DocumentID == 1) {  \r",
+											"        found = true;  \r",
+											"        return false;\r",
+											"    }  \r",
+											"});  \r",
+											"    \r",
+											"pm.test(\"Found document\", function () {  \r",
+											"    pm.expect(found).to.be.true;  \r",
+											"});  \r",
+											"  \r",
+											"pm.test(\"Response should be an array and not empty\", function () {  \r",
+											"    pm.expect(Array.isArray(jsonData)).to.be.true;  \r",
+											"    pm.expect(jsonData.length).to.be.gt(0);  \r",
+											"});    "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/Doc/getDocById/1",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"Doc",
+										"getDocById",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "RecordsTest",
+					"item": [
+						{
+							"name": "RecordsPostTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"success record insertion\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"documentId\" : 1,\r\n    \"title\" : \"testDoc1\",\r\n    \"tags\" : \"test\",\r\n    \"cover\" : null,\r\n    \"userID\" : {{UserID}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IP}}:{{Port}}/records/post/",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"records",
+										"post",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RecordsPost2Test",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"success record insertion\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"documentId\" : 2,\r\n    \"title\" : \"testDoc2\",\r\n    \"tags\" : \"test\",\r\n    \"cover\" : null,\r\n    \"userID\" : {{UserID}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IP}}:{{Port}}/records/post/",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"records",
+										"post",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetRecordsTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();  \r",
+											"    \r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"Total 2 records\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(2);  \r",
+											"    });  \r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/records/select/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"records",
+										"select",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RecordsDelete1Test",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/records/delete/{{UserID}}/1",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"records",
+										"delete",
+										"{{UserID}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RecordsDelete1VerifyTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();  \r",
+											"    \r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"Total 1 records\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(1);  \r",
+											"    });  \r",
+											"    pm.test(\"Records shold be TestDoc2\", function(){\r",
+											"        pm.expect(jsonData[0].documentId).to.equal(2);\r",
+											"    })\r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/records/select/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"records",
+										"select",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RecordsDelete2Test",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/records/delete/{{UserID}}/2",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"records",
+										"delete",
+										"{{UserID}}",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RecordsDelete2VerifyTest Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();  \r",
+											"    \r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"All records deleted\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(0);  \r",
+											"    });  \r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/records/select/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"records",
+										"select",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "MessagesTest",
+					"item": [
+						{
+							"name": "MessagesSendTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\" : {{UserID}},\r\n    \"senderId\" : 1001,\r\n    \"userName\" : \"xuexia\",\r\n    \"message\" : \"Hello,world!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IP}}:{{Port}}/messages/send",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"messages",
+										"send"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MessagesGetTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();  \r",
+											"\r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"Total 1 message\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(1);  \r",
+											"    });  \r",
+											"    pm.test(\"check message content\", function(){\r",
+											"        pm.expect(jsonData[0].message).to.equal(\"Hello,world!\");\r",
+											"    })\r",
+											"    var messageID = jsonData[0].messageId;\r",
+											"\r",
+											"    pm.collectionVariables.set(\"MessageID\", messageID);\r",
+											"\r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/messages/select/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"messages",
+										"select",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MessagesSendTest2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\" : {{UserID}},\r\n    \"senderId\" : 1001,\r\n    \"userName\" : \"xuexia\",\r\n    \"message\" : \"DocReading\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IP}}:{{Port}}/messages/send",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"messages",
+										"send"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MessagesGetTest2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();  \r",
+											"\r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"Total 2 messages\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(2);  \r",
+											"    });  \r",
+											"    pm.test(\"check messages content\", function(){\r",
+											"        pm.expect(jsonData[0].message).to.equal(\"DocReading\");\r",
+											"        pm.expect(jsonData[1].message).to.equal(\"Hello,world!\");\r",
+											"    })\r",
+											"    var messageID = jsonData[0].messageId;\r",
+											"\r",
+											"    pm.collectionVariables.set(\"MessageID\", messageID);\r",
+											"\r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/messages/select/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"messages",
+										"select",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "BookshelfTest",
+					"item": [
+						{
+							"name": "InBookshelfFailedTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/Bookshelf/?UserID={{UserID}}&DocumentID=1",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"Bookshelf",
+										""
+									],
+									"query": [
+										{
+											"key": "UserID",
+											"value": "{{UserID}}"
+										},
+										{
+											"key": "DocumentID",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddBookshelfTest",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const now = new Date();  \r",
+											"  \r",
+											"const year = now.getUTCFullYear();  \r",
+											"const month = now.getUTCMonth() + 1; \r",
+											"const day = now.getUTCDate();  \r",
+											"const hours = now.getUTCHours();  \r",
+											"const minutes = now.getUTCMinutes();  \r",
+											"const seconds = now.getUTCSeconds();  \r",
+											"\r",
+											"const TimeArray = [year, month, day, hours, minutes, seconds];  \r",
+											"   \r",
+											"pm.collectionVariables.set(\"CurrentTime\", JSON.stringify(TimeArray));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Book added to bookshelf successfully\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserID\" : {{UserID}},\r\n    \"DocumentID\" : 1,\r\n    \"UpdateTime\" : null,\r\n    \"FavorTime\" : null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/Bookshelf/",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"Bookshelf",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InBookshelfTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/Bookshelf/?UserID={{UserID}}&DocumentID=1",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"Bookshelf",
+										""
+									],
+									"query": [
+										{
+											"key": "UserID",
+											"value": "{{UserID}}"
+										},
+										{
+											"key": "DocumentID",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddBookshelfTest2",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const now = new Date();  \r",
+											"  \r",
+											"const year = now.getUTCFullYear();  \r",
+											"const month = now.getUTCMonth() + 1; \r",
+											"const day = now.getUTCDate();  \r",
+											"const hours = now.getUTCHours();  \r",
+											"const minutes = now.getUTCMinutes();  \r",
+											"const seconds = now.getUTCSeconds();  \r",
+											"\r",
+											"const TimeArray = [year, month, day, hours, minutes, seconds];  \r",
+											"   \r",
+											"pm.collectionVariables.set(\"CurrentTime\", JSON.stringify(TimeArray));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Book added to bookshelf successfully\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserID\" : {{UserID}},\r\n    \"DocumentID\" : 2,\r\n    \"UpdateTime\" : null,\r\n    \"FavorTime\" : null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/Bookshelf/",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"Bookshelf",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetFavotDocsFTTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"Total 2 favordocs\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(2);  \r",
+											"    });  \r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/favorDoc/select/FT/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"favorDoc",
+										"select",
+										"FT",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetFavorDocsUTTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"Total 2 favordocs\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(2);  \r",
+											"    });  \r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/favorDoc/select/UT/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"favorDoc",
+										"select",
+										"UT",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UserRemoveBookshelfTest",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const now = new Date();  \r",
+											"  \r",
+											"const year = now.getUTCFullYear();  \r",
+											"const month = now.getUTCMonth() + 1; \r",
+											"const day = now.getUTCDate();  \r",
+											"const hours = now.getUTCHours();  \r",
+											"const minutes = now.getUTCMinutes();  \r",
+											"const seconds = now.getUTCSeconds();  \r",
+											"\r",
+											"const TimeArray = [year, month, day, hours, minutes, seconds];  \r",
+											"   \r",
+											"pm.collectionVariables.set(\"CurrentTime\", JSON.stringify(TimeArray));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Book removed from bookshelf successfully\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserID\" : {{UserID}},\r\n    \"DocumentID\" : 2,\r\n    \"UpdateTime\" : null,\r\n    \"FavorTime\" : null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/Bookshelf/",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"Bookshelf",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UserRemoveBookshelfVerifyTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"Total 1 favordocs\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(1);  \r",
+											"    });  \r",
+											"    pm.test(\"Doc1 left\", function(){\r",
+											"        pm.expect(jsonData[0].documentId).to.equal(1);\r",
+											"    })\r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/favorDoc/select/FT/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"favorDoc",
+										"select",
+										"FT",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RemoveBookshelfTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/favorDoc/delete/{{UserID}}/1",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"favorDoc",
+										"delete",
+										"{{UserID}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RemoveBookshelfverifyTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"Total 0 favordocs\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(0);  \r",
+											"    });  \r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/favorDoc/select/FT/{{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"favorDoc",
+										"select",
+										"FT",
+										"{{UserID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CommentTest",
+					"item": [
+						{
+							"name": "GetCommentFailedTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"No comment\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(0);  \r",
+											"    });  \r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/Comment/?DocumentID=-1&chapterNum=-1",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"Comment",
+										""
+									],
+									"query": [
+										{
+											"key": "DocumentID",
+											"value": "-1"
+										},
+										{
+											"key": "chapterNum",
+											"value": "-1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddCommenttest",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const now = new Date();  \r",
+											"  \r",
+											"const year = now.getUTCFullYear();  \r",
+											"const month = now.getUTCMonth() + 1; \r",
+											"const day = now.getUTCDate();  \r",
+											"const hours = now.getUTCHours();  \r",
+											"const minutes = now.getUTCMinutes();  \r",
+											"const seconds = now.getUTCSeconds();  \r",
+											"\r",
+											"const TimeArray = [year, month, day, hours, minutes, seconds];  \r",
+											"   \r",
+											"pm.collectionVariables.set(\"CurrentTime\", JSON.stringify(TimeArray));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"CommentID\" : 0,\r\n    \"UserID\" : {{UserID}},\r\n    \"Content\" : \"Test text 1\",\r\n    \"PublishTime\" : {{CurrentTime}},\r\n    \"DocumentID\" : 1,\r\n    \"likes\" : 0,\r\n    \"chapterNum\" : 0,\r\n    \"userName\" : \"{{UserName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/Comment/",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"Comment",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCommentTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"Total 1 comment\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(1);  \r",
+											"    });  \r",
+											"    pm.test(\"Check comment content\", function(){\r",
+											"        pm.expect(jsonData[0].Content).to.equal(\"Test text 1\");\r",
+											"    })\r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/Comment/?DocumentID=1&chapterNum=0",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"Comment",
+										""
+									],
+									"query": [
+										{
+											"key": "DocumentID",
+											"value": "1"
+										},
+										{
+											"key": "chapterNum",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "CreationTest",
+			"item": [
+				{
+					"name": "DraftTest",
+					"item": [
+						{
+							"name": "GetNoDraftTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"if (Array.isArray(jsonData)) {   \r",
+											"    pm.test(\"No draft\", function () {  \r",
+											"        pm.expect(jsonData.length).to.equal(0);  \r",
+											"    });  \r",
+											"} else {  \r",
+											"    pm.test(\"Response should be an array\", function () {  \r",
+											"        pm.expect(jsonData).to.be.an('array');  \r",
+											"    });  \r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/getDrafts/?userID={{UserID}}",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"getDrafts",
+										""
+									],
+									"query": [
+										{
+											"key": "userID",
+											"value": "{{UserID}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddToDraftTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\" : \"Draft test 1\",\r\n    \"content\" : \"This is a test text content.\",\r\n    \"userID\" : {{UserID}},\r\n    \"currentModityTime\" : \"2024-08-24 14:30:00\",\r\n    \"id\" : 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IP}}:{{Port}}/users/api/addToDraft",
+									"host": [
+										"{{IP}}"
+									],
+									"port": "{{Port}}",
+									"path": [
+										"users",
+										"api",
+										"addToDraft"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "RandomUserName",
+			"value": "{{$randomLastname}}",
+			"type": "string"
+		},
+		{
+			"key": "RandomPassword",
+			"value": "{{$randomPassword}}",
+			"type": "string"
+		},
+		{
+			"key": "RandomEmailAdress",
+			"value": "{{$randomExampleEmail}}",
+			"type": "string"
+		},
+		{
+			"key": "UserName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "EmailAdress",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Port",
+			"value": "8081",
+			"type": "string"
+		},
+		{
+			"key": "IP",
+			"value": "localhost",
+			"type": "string"
+		},
+		{
+			"key": "Password2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "UserID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "MessageID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "CurrentTime",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

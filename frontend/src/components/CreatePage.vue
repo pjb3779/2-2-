@@ -67,7 +67,7 @@ const submitContent= () => {
           userID:userID.value
         };
         console.log(draftData.content)
-        axios.post('http://localhost:8080/users/api/addToDraft', draftData)
+        axios.post('http://localhost:8081/users/api/addToDraft', draftData)
         .then(response => {
           console.log('Draft Saved:', response.data);
           state.editorData='';

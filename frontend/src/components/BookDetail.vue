@@ -85,7 +85,7 @@ export default {
   methods: {
     initialLize() {
       axios
-        .get('http://localhost:8080/users/api/Document/', {
+        .get('http://localhost:8081/users/api/Document/', {
           params: { id: this.documentId },
         })
         .then((response) => {
@@ -100,7 +100,7 @@ export default {
             this.url=image;
           }
           axios
-            .get('http://localhost:8080/users/api/UserAccount/', {
+            .get('http://localhost:8081/users/api/UserAccount/', {
               params: { param: this.authorId },
             })
             .then((response) => {
@@ -112,7 +112,7 @@ export default {
 
       // Fetch comments after getting document and author information
       axios
-        .get('http://localhost:8080/users/api/Comment/', {
+        .get('http://localhost:8081/users/api/Comment/', {
           params: {
             DocumentID: this.documentId,
             chapterNum: 0,
@@ -138,7 +138,7 @@ export default {
     },
     showChapters(){
       axios
-      .get('http://localhost:8080/users/api/chapters/',{
+      .get('http://localhost:8081/users/api/chapters/',{
         params:{
           DocumentID: this.documentId
         }
@@ -156,7 +156,7 @@ export default {
       })
     },
     addRecord(){
-      axios.post('http://localhost:8080/records/post/',{
+      axios.post('http://localhost:8081/records/post/',{
         userID:this.userId,
         documentId:this.documentId,
       })
@@ -166,7 +166,7 @@ export default {
     },
     checkBookshelf(){
       axios
-        .get('http://localhost:8080/users/api/Bookshelf/', {
+        .get('http://localhost:8081/users/api/Bookshelf/', {
           params: {
             UserID: this.userId,
             DocumentID: this.documentId,
@@ -185,7 +185,7 @@ export default {
     toggleBookshelf() {
       if (this.isInBookshelf) {
         axios
-          .delete('http://localhost:8080/users/api/Bookshelf/', {
+          .delete('http://localhost:8081/users/api/Bookshelf/', {
             data: {
               UserID: this.userId,
               DocumentID: this.documentId,
@@ -200,7 +200,7 @@ export default {
           });
       } else {
         axios
-          .post('http://localhost:8080/users/api/Bookshelf/', {
+          .post('http://localhost:8081/users/api/Bookshelf/', {
             UserID: this.userId,
             DocumentID: this.documentId,
             FavorTime: new Date().toISOString(),
@@ -226,7 +226,7 @@ export default {
     },
     postComment() {
       if (this.newComment.trim() !== '') {
-        axios.post('http://localhost:8080/users/api/Comment/', {
+        axios.post('http://localhost:8081/users/api/Comment/', {
             UserID: this.userId,
             Content: this.newComment,
             DocumentID: this.documentId,

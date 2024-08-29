@@ -159,7 +159,7 @@ const fileContent = ref('');
 
 const openDrawer = async (id) => {
   try {
-    const response = await axios.get('http://localhost:8080/users/api/getChapters/', {
+    const response = await axios.get('http://localhost:8081/users/api/getChapters/', {
       params: { documentID: id }
     });
     chapterdatas.value = response.data;
@@ -190,13 +190,13 @@ const openDrawer = async (id) => {
 const complete = async () => {
   try {
     // 第一步：删除chapter表中所有DocumentID等于docID的元素
-    await axios.delete('http://localhost:8080/users/api/deleteChapters/', {
+    await axios.delete('http://localhost:8081/users/api/deleteChapters/', {
       params: { documentID: docID.value }
     });
     console.log(docID.value);
     // 第二步：添加chapters数组中的所有元素到chapter表中
     for (const chapter of chapters.value) {
-      await axios.post('http://localhost:8080/users/api/chapters/', {
+      await axios.post('http://localhost:8081/users/api/chapters/', {
         num: chapter.id,
         documentID: docID.value,
         content: chapter.content,
@@ -204,7 +204,7 @@ const complete = async () => {
       });
     }
     // 第一步：删除chapter表中所有DocumentID等于docID的元素
-    await axios.put('http://localhost:8080/users/api/updateChapterNum/', {
+    await axios.put('http://localhost:8081/users/api/updateChapterNum/', {
       documentID: docID.value ,
       chapterNum: chapters.value.length
     });
@@ -238,7 +238,7 @@ const confirmDraft = (chapter) => {
 
 const fetchDrafts = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/users/api/getDrafts/', {
+    const response = await axios.get('http://localhost:8081/users/api/getDrafts/', {
       params: { userID: userID.value }
     });
     drafts.value = response.data;
@@ -289,7 +289,7 @@ const removeChapter = (index) => {
 // 获取草稿的方法
 const fetchDocs = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/users/api/getDocs/', {
+    const response = await axios.get('http://localhost:8081/users/api/getDocs/', {
       params: { userID: userID.value }
     });
     docs.value = response.data;
@@ -315,7 +315,7 @@ const deleteDoc = async (id) => {
     }
   ).then(async () => {
     try {
-      const response = await axios.delete('http://localhost:8080/users/api/deleteDoc/', {
+      const response = await axios.delete('http://localhost:8081/users/api/deleteDoc/', {
         params: { id: id }
       });
       if (response.status === 200) {
