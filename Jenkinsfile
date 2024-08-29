@@ -84,7 +84,9 @@ pipeline {
             // }
             // echo 'Deleting Docker images due to failure.'
             // 清理工作区
-            cleanWs()
+            node {
+                cleanWs()
+            }
             echo 'end'
         }
     }
